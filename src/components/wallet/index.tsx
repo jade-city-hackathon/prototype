@@ -1,5 +1,5 @@
 import { Flex, Image, Text } from '@chakra-ui/react';
-import walletIcon from 'src/assets/walletIcon.svg';
+import walletIcon from '../../assets/walletIcon.svg';
 
 const Wallet = () => {
   return (

@@ -1,6 +1,7 @@
 import { Flex, Grid, Image, Text } from '@chakra-ui/react';
 import logo from '../../assets/logo.svg';
 import { useWalletConnect } from '../../store/walletConnection';
+import Wallet from '../wallet';
 
 const Header = () => {
   const { isConnected } = useWalletConnect((state) => state);
@@ -20,7 +21,7 @@ const Header = () => {
         visibility={isConnected ? 'visible' : 'hidden'}
         transition="all .3s"
       >
-        Wallet
+        <Wallet />
       </Flex>
       <Flex justifyContent="center" alignItems="center" columnGap="1em">
         <Image w={75} h={75} src={logo} alt="logo" />
