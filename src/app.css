@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'Futura Book';
+    src: url('./fonts/FuturaBookC.eot');
+    src: url('./fonts/FuturaBookC.eot?#iefix') format('embedded-opentype'),
+    url('./fonts/FuturaBookC.woff') format('woff'),
+    url('./fonts/FuturaBookC.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
