@@ -7,7 +7,7 @@ const ConnectWallet = () => {
     // open loader
     setTimeout(() => {
       setIsConnected(true);
-    }, 3000);
+    }, 1500);
   };
   return (
     <Flex
@@ -20,9 +20,11 @@ const ConnectWallet = () => {
       <Heading variant="h1" opacity="0.87">
         First, connect your wallet.
       </Heading>
+
       <Text variant="subTitle">
         Connect to complete tasks and upgrade your citizen
       </Text>
+
       <Button variant="main" onClick={connectWallet}>
         Connect Wallet
       </Button>

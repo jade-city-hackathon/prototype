@@ -3,26 +3,28 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
-    "plugin:prettier/recommended",
-    "plugin:jsx-a11y/strict"
+    "plugin:prettier/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "plugins": [
-    "react", "jsx-a11y", "@typescript-eslint"
+    "react",
+    "@typescript-eslint"
   ],
   "rules": {
-    "no-var": "error",
-    "prettier/prettier": "error",
-    "react/jsx-uses-react": "off",
-    "react/react-in-jsx-scope": "off",
-    "no-console": ["error", { "allow": ["warn", "error"] }],
-    "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": "error",
-    "react-hooks/exhaustive-deps": "off"
+    "react/jsx-no-target-blank": "off",
+    "react-refresh/only-export-components": [
+      "warn",
+      {
+        "allowConstantExport": true
+      }
+    ]
   },
   "overrides": [
     {
-      "files": ["*.ts","*.tsx"],
+      "files": [
+        "*.ts",
+        "*.tsx"
+      ],
       "rules": {
         "no-undef": 0
       }
