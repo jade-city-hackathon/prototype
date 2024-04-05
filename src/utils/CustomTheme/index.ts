@@ -1,5 +1,4 @@
 import { extendTheme } from '@chakra-ui/react';
-import { mode } from '@chakra-ui/theme-tools';
 
 export const theme = extendTheme({
   config: {
@@ -17,12 +16,11 @@ export const theme = extendTheme({
   styles: {
     global: {
       body: {
-        bg: mode('gray.100', 'gray.600'),
-        color: mode('#828BA066', 'gray.800'),
+        bg: '#000',
+        color: '#fff',
       },
-      // styles for the `a`
       a: {
-        color: 'teal.500',
+        color: '#fff',
         _hover: {
           textDecoration: 'underline',
         },
