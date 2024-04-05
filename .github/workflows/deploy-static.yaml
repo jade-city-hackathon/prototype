@@ -35,4 +35,4 @@ jobs:
       run: aws s3 sync ./dist/ s3://jedaite-static-site/ --delete
 
     - name: CloudFront invalidation
-      run: aws cloudfront create-invalidation --distribution-id E38P693CM8G694 --paths "/*"
+      run: aws cloudfront create-invalidation --distribution-id E31ZG2RT6227CO --paths "/*"
