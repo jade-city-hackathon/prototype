@@ -77,6 +77,18 @@ export const theme = extendTheme({
           lineHeight: ' 150%',
           color: '#9a9b9b',
         },
+        smallText: {
+          fontWeight: 600,
+          fontSize: '11px',
+          letterSpacing: '0.04em',
+          color: '#96bfae',
+        },
+        semiText: {
+          fontWeight: 500,
+          fontSize: '14px',
+          letterSpacing: '143%',
+          color: '#fff',
+        },
       },
     },
     Button: {
@@ -92,6 +104,9 @@ export const theme = extendTheme({
           transition: 'all .3s',
           _hover: {
             opacity: '0.7',
+          },
+          _disabled: {
+            opacity: '0.2',
           },
         },
       },

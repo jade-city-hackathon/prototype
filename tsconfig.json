@@ -21,9 +21,6 @@
     "jsx": "react-jsx",
     "noUnusedLocals": true,
     "baseUrl": ".",
-    "paths": {
-      "@/components/*": ["src/components/*"]
-    }
   },
   "include": [
     "src",

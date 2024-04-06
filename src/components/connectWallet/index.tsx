@@ -1,12 +1,18 @@
-import { Button, Flex, Heading, Text } from '@chakra-ui/react';
+import { Button, Flex, Heading, Spinner, Text } from '@chakra-ui/react';
 import { useWalletConnect } from '../../store/walletConnection';
+import { useState } from 'react';
 
 const ConnectWallet = () => {
   const { setIsConnected } = useWalletConnect((state) => state);
+
+  const [isLoading, setIsLoading] = useState(false);
+
   const connectWallet = () => {
-    // open loader
+    setIsLoading(true);
+
     setTimeout(() => {
       setIsConnected(true);
+      setIsLoading(false);
     }, 1500);
   };
   return (
@@ -25,8 +31,23 @@ const ConnectWallet = () => {
         Connect to complete tasks and upgrade your citizen
       </Text>
 
-      <Button variant="main" onClick={connectWallet}>
+      <Button
+        variant="main"
+        onClick={connectWallet}
+        w="172"
+        disabled={isLoading}
+      >
         Connect Wallet
+        {isLoading && (
+          <Spinner
+            ml="10px"
+            thickness="2px"
+            speed="0.65s"
+            emptyColor="#101e1b"
+            color="#fff"
+            size="sm"
+          />
+        )}
       </Button>
     </Flex>
   );

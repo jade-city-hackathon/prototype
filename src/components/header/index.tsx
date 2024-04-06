@@ -10,7 +10,6 @@ const Header = () => {
     <Grid
       height="360px"
       bgGradient="linear(to-tr,#0b1310 0%, #1f382e 100%)"
-      // bgGradient="linear(to-tr,#0b1310 0%, #1f382f 100%)"
       justifyContent="center"
       position="relative"
     >
