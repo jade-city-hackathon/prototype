@@ -7,10 +7,12 @@ import { SolflareWalletAdapter } from '@solana/wallet-adapter-solflare';
 import { PhantomWalletAdapter } from '@solana/wallet-adapter-phantom';
 import { ReactNode, useCallback, useMemo } from 'react';
 import { getCluster } from './cluster';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const IS_DEV_NET = true;
 
 const Provider = ({ children }: { children: ReactNode }) => {
+  const queryClient = new QueryClient();
   const network = IS_DEV_NET
     ? WalletAdapterNetwork.Devnet
     : WalletAdapterNetwork.Mainnet;
@@ -29,11 +31,13 @@ const Provider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets} onError={onError} autoConnect={true}>
-        {children}
-      </WalletProvider>
-    </ConnectionProvider>
+    <QueryClientProvider client={queryClient}>
+      <ConnectionProvider endpoint={endpoint}>
+        <WalletProvider wallets={wallets} onError={onError} autoConnect={true}>
+          {children}
+        </WalletProvider>
+      </ConnectionProvider>
+    </QueryClientProvider>
   );
 };
 
