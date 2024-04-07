@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Box, Flex, Grid, Heading, Image, Text } from '@chakra-ui/react';
 import UpdateTasks from '../updateTasks';
 import { useMinerLevel } from '../../store/miners';
@@ -38,20 +37,6 @@ const InfoBox = ({ topText, bottomText }: InfoBoxType) => {
 const UpdateMiner = () => {
   const { minerLevel, completeTask1, completeTask2, completeTask3 } =
     useMinerLevel((state) => state);
-
-  const [nftPosition, setNftPosition] = useState({
-    bottom: '90%',
-    left: '30%',
-  });
-
-  useEffect(() => {
-    setTimeout(() => {
-      setNftPosition({
-        bottom: '0%',
-        left: '0%',
-      });
-    }, 1000);
-  });
 
   const isAllComplited = completeTask1 && completeTask2 && completeTask3;
 
@@ -99,7 +84,8 @@ const UpdateMiner = () => {
           borderColor="#4d8967"
           transition="all .5s"
           className="constant-tilt-shake"
-          style={nftPosition}
+          bottom="0%"
+          left="0%"
         ></Flex>
 
         <Grid

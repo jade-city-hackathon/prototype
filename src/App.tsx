@@ -3,14 +3,17 @@ import Layout from './components/layout';
 import { theme } from './utils/CustomTheme';
 import './app.css';
 import Main from './components/main';
+import Provider from './utils/provider';
 
 const App = () => {
   return (
-    <ChakraProvider theme={theme}>
-      <Layout>
-        <Main />
-      </Layout>
-    </ChakraProvider>
+    <Provider>
+      <ChakraProvider theme={theme}>
+        <Layout>
+          <Main />
+        </Layout>
+      </ChakraProvider>
+    </Provider>
   );
 };
 

@@ -114,7 +114,7 @@ const MintMiner = () => {
             Mint a miner
           </Heading>
 
-          <TextLabels leftText={'SUPPLY'} rightText={'7800/6,700'} />
+          <TextLabels leftText={'SUPPLY'} rightText={'6,700/6,700'} />
 
           <TextLabels leftText={'MINT PRICE'} rightText={'1.0'} solanaIcon />
 
