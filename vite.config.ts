@@ -1,11 +1,12 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import version from 'vite-plugin-package-version';
+import { nodePolyfills } from 'vite-plugin-node-polyfills';
 // https://vitejs.dev/config/
 
 export default defineConfig(() => {
   return {
-    plugins: [version(), react()],
+    plugins: [nodePolyfills(), version(), react()],
     optimizeDeps: {
       esbuildOptions: {
         define: {
@@ -15,6 +16,7 @@ export default defineConfig(() => {
     },
     resolve: {
       alias: {
+        crypto: 'crypto-browserify',
         process: 'process/browser',
         stream: 'stream-browserify',
         zlib: 'browserify-zlib',
