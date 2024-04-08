@@ -146,7 +146,7 @@ const MintMiner = () => {
   };
   return (
     <Flex justifyContent="center">
-      <Skeleton isLoaded={!isLoading} startColor="#1F372E" endColor="#223D34">
+      <Skeleton isLoaded={!isLoading} startColor="#1F372E" endColor="#2C4F43">
         <Flex overflow="hidden">
           <Flex
             backgroundImage={mintMinerBg}
