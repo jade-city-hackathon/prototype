@@ -14,7 +14,9 @@ import alarmIcon from '../../assets/alarm.svg';
 
 import UpdateModal from '../updateModal';
 import { useQuery } from '@tanstack/react-query';
-import { getMetaData } from '../mintMiner';
+import { getNtfData } from '../mintMiner';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { useGetProgram } from '../../hooks/useGetProgram';
 
 type InfoBoxType = {
   topText: string;
@@ -43,14 +45,19 @@ const InfoBox = ({ topText, bottomText }: InfoBoxType) => {
 };
 
 const UpdateMiner = () => {
-  const { minerLevel, completeTask1, completeTask2, completeTask3 } =
+  const { metaData, minerLevel, completeTask1, completeTask2, completeTask3 } =
     useMinerLevel((state) => state);
 
   const isAllComplited = completeTask1 && completeTask2 && completeTask3;
 
-  const { data: metaData, isLoading } = useQuery({
-    queryKey: ['getMetaData'],
-    queryFn: getMetaData,
+  const { publicKey } = useWallet();
+
+  const program = useGetProgram();
+
+  const { data: ntfData, isLoading } = useQuery({
+    queryKey: ['nftData', publicKey?.toBase58()],
+    queryFn: () => getNtfData(publicKey?.toBase58() || ''),
+    enabled: !!program && !!publicKey && !metaData,
   });
 
   return (
@@ -88,7 +95,9 @@ const UpdateMiner = () => {
             position="absolute"
             backgroundImage={
               minerLevel === 'second'
-                ? metaData?.metadata.image || ''
+                ? ntfData
+                  ? ntfData?.json.image
+                  : metaData?.image
                 : level2Miner
             }
             backgroundSize="120%"
@@ -122,7 +131,7 @@ const UpdateMiner = () => {
             </Heading>
 
             <Grid gridTemplateColumns="repeat(4, 1fr)" columnGap="12px">
-              {metaData?.metadata.attributes
+              {(ntfData ? ntfData.json.attributes : metaData?.attributes || [])
                 .slice(0, 4)
                 .map((attr) => (
                   <InfoBox
@@ -134,7 +143,7 @@ const UpdateMiner = () => {
             </Grid>
 
             <Grid gridTemplateColumns="repeat(4, 1fr)" columnGap="12px">
-              {metaData?.metadata.attributes
+              {(ntfData ? ntfData.json.attributes : metaData?.attributes || [])
                 .slice(4)
                 .map((attr) => (
                   <InfoBox

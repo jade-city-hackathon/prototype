@@ -87,7 +87,7 @@ const TextLabels = ({ leftText, rightText, solanaIcon }: LabelText) => {
 };
 
 const MintMiner = () => {
-  const { setMinerLevel } = useMinerLevel((state) => state);
+  const { setMinerLevel, setMetaData } = useMinerLevel((state) => state);
 
   const { publicKey } = useWallet();
 
@@ -124,8 +124,15 @@ const MintMiner = () => {
   useEffect(() => {
     if (isNftPresent) {
       setMinerLevel('second');
+    } else {
+      if (metaData) {
+        setMetaData({
+          attributes: metaData.metadata.attributes,
+          image: metaData.metadata.image,
+        });
+      }
     }
-  }, [isNftPresent]);
+  }, [isNftPresent, metaData]);
 
   const mintNFT = () => {
     if (!metaData || !program || !publicKey) {
