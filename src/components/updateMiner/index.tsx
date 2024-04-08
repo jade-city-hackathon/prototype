@@ -80,7 +80,7 @@ const UpdateMiner = () => {
         <UpdateModal />
       </Grid>
 
-      <Skeleton isLoaded={!isLoading}>
+      <Skeleton isLoaded={!isLoading} startColor="#1F372E" endColor="#223D34">
         <Flex position="relative">
           <Box w="300px" h="300px"></Box>
 
