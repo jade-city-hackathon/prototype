@@ -12,17 +12,14 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import infoIcon from '../../assets/infoIcon.svg';
-import { useMinerLevel } from '../../store/miners';
 
 const UpdateModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { minerLevel, setMinerLevel } = useMinerLevel((state) => state);
-
   const handleUpdateNFT = () => {
-    if (minerLevel === 'second') {
-      setMinerLevel('third');
-    }
+    // if (minerLevel === 'second') {
+    //   setMinerLevel('third');
+    // }
 
     onClose();
   };
