@@ -15,20 +15,3 @@ export const getProgram = (
   });
   return new Program(IDL as Idl, IDL_ADDRESS, provider);
 };
-
-export const handleConfirmTx = async ({
-  program,
-  signature,
-}: {
-  program: Program<Idl>;
-  signature: string;
-}) => {
-  const latestBlockHash =
-    await program.provider.connection.getLatestBlockhash();
-
-  return await program.provider.connection.confirmTransaction({
-    blockhash: latestBlockHash.blockhash,
-    lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
-    signature: signature,
-  });
-};

@@ -14,7 +14,7 @@ import solanaIcons from '../../assets/solana.svg';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useGetProgram } from '../../hooks/useGetProgram';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { getNFT } from '../../utils/provider/api';
+import { getNFT, getSupply } from '../../utils/provider/api';
 import axios from 'axios';
 import { useMinerLevel } from '../../store/miners';
 
@@ -30,6 +30,7 @@ export type MetaDataType = {
     symbol: string;
     description: string;
     image: string;
+    attributes: { trait_type: string; value: string }[];
   };
   ipfsHash: string;
 };
@@ -108,9 +109,15 @@ const MintMiner = () => {
     },
   });
 
-  const { data: isNftPresent, isPending: isPendingCheckNft } = useQuery({
+  const { data: isNftPresent, isLoading } = useQuery({
     queryKey: ['checkNft', publicKey?.toBase58(), isPendingMintNft],
     queryFn: () => getNtfData(publicKey?.toBase58() || ''),
+    enabled: !!program && !!publicKey,
+  });
+
+  const { data: supplyData } = useQuery({
+    queryKey: ['getSupply', publicKey?.toBase58()],
+    queryFn: () => getSupply({ program, publicKey }),
     enabled: !!program && !!publicKey,
   });
 
@@ -132,7 +139,7 @@ const MintMiner = () => {
   };
   return (
     <Flex justifyContent="center">
-      <Skeleton isLoaded={!isPendingCheckNft}>
+      <Skeleton isLoaded={!isLoading} startColor="#1F372E" endColor="#223D34">
         <Flex overflow="hidden">
           <Flex
             backgroundImage={mintMinerBg}
@@ -185,7 +192,10 @@ const MintMiner = () => {
               Mint a miner
             </Heading>
 
-            <TextLabels leftText={'SUPPLY'} rightText={'6,700/6,700'} />
+            <TextLabels
+              leftText={'SUPPLY'}
+              rightText={`${supplyData?.supply}/${supplyData?.totalSupply}`}
+            />
 
             <TextLabels leftText={'MINT PRICE'} rightText={'1.0'} solanaIcon />
 

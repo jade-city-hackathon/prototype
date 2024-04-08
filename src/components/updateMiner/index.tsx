@@ -1,4 +1,12 @@
-import { Box, Flex, Grid, Heading, Image, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Grid,
+  Heading,
+  Image,
+  Skeleton,
+  Text,
+} from '@chakra-ui/react';
 import UpdateTasks from '../updateTasks';
 import { useMinerLevel } from '../../store/miners';
 import level2Miner from '../../assets/level2.png';
@@ -6,9 +14,7 @@ import alarmIcon from '../../assets/alarm.svg';
 
 import UpdateModal from '../updateModal';
 import { useQuery } from '@tanstack/react-query';
-import { getNtfData } from '../mintMiner';
-import { useWallet } from '@solana/wallet-adapter-react';
-import { useGetProgram } from '../../hooks/useGetProgram';
+import { getMetaData } from '../mintMiner';
 
 type InfoBoxType = {
   topText: string;
@@ -42,14 +48,9 @@ const UpdateMiner = () => {
 
   const isAllComplited = completeTask1 && completeTask2 && completeTask3;
 
-  const { publicKey } = useWallet();
-
-  const program = useGetProgram();
-
-  const { data: nftData } = useQuery({
-    queryKey: ['checkNft', publicKey?.toBase58()],
-    queryFn: () => getNtfData(publicKey?.toBase58() || ''),
-    enabled: !!program && !!publicKey,
+  const { data: metaData, isLoading } = useQuery({
+    queryKey: ['getMetaData'],
+    queryFn: getMetaData,
   });
 
   return (
@@ -79,103 +80,73 @@ const UpdateMiner = () => {
         <UpdateModal />
       </Grid>
 
-      <Flex position="relative">
-        <Box w="300px" h="300px"></Box>
+      <Skeleton isLoaded={!isLoading}>
+        <Flex position="relative">
+          <Box w="300px" h="300px"></Box>
 
-        <Flex
-          position="absolute"
-          backgroundImage={
-            minerLevel === 'second' ? nftData?.json.image || '' : level2Miner
-          }
-          backgroundSize="120%"
-          backgroundPosition="center"
-          backgroundRepeat="no-repeat"
-          w="300px"
-          h="300px"
-          justifyContent="center"
-          alignItems="center"
-          border="2px solid"
-          borderColor="#4d8967"
-          transition="all .5s"
-          className="constant-tilt-shake"
-          bottom="0%"
-          left="0%"
-        ></Flex>
+          <Flex
+            position="absolute"
+            backgroundImage={
+              minerLevel === 'second'
+                ? metaData?.metadata.image || ''
+                : level2Miner
+            }
+            backgroundSize="120%"
+            backgroundPosition="center"
+            backgroundRepeat="no-repeat"
+            w="300px"
+            h="300px"
+            justifyContent="center"
+            alignItems="center"
+            border="2px solid"
+            borderColor="#4d8967"
+            transition="all .5s"
+            className="constant-tilt-shake"
+            bottom="0%"
+            left="0%"
+          ></Flex>
 
-        <Grid
-          w="730px"
-          h="300px"
-          bgGradient="linear(to-tr, #1d322a 20%,  rgba(73, 131, 110, 0.4) 80%)"
-          gridTemplateColumns="1fr"
-          gridTemplateRows=".3fr .5fr repeat(2, 1fr)"
-          p="30px"
-          rowGap="12px"
-        >
-          <Text variant="smallText">THE JADEITES</Text>
+          <Grid
+            w="730px"
+            h="300px"
+            bgGradient="linear(to-tr, #1d322a 20%,  rgba(73, 131, 110, 0.4) 80%)"
+            gridTemplateColumns="1fr"
+            gridTemplateRows=".3fr .5fr repeat(2, 1fr)"
+            p="30px"
+            rowGap="12px"
+          >
+            <Text variant="smallText">THE JADEITES</Text>
 
-          <Heading variant="h1" color="#e6e6e6">
-            {minerLevel === 'second' ? 'Miner #4049' : 'Jadesmith #951'}
-          </Heading>
+            <Heading variant="h1" color="#e6e6e6">
+              {minerLevel === 'second' ? 'Miner #4049' : 'Jadesmith #951'}
+            </Heading>
 
-          <Grid gridTemplateColumns="repeat(4, 1fr)" columnGap="12px">
-            {nftData?.json.attributes
-              .slice(0, 4)
-              .map((attr) => (
-                <InfoBox
-                  key={attr.trait_type}
-                  topText={attr.trait_type}
-                  bottomText={attr.value}
-                />
-              ))}
-            {/*<InfoBox*/}
-            {/*  topText="tier"*/}
-            {/*  bottomText={minerLevel === 'second' ? 'miner' : 'JADESMITH'}*/}
-            {/*/>*/}
-            {/*<InfoBox*/}
-            {/*  topText="BACKGROUND"*/}
-            {/*  bottomText={minerLevel === 'second' ? 'MYSTICAL' : 'JADE'}*/}
-            {/*/>*/}
-            {/*<InfoBox*/}
-            {/*  topText="EYES"*/}
-            {/*  bottomText={minerLevel === 'second' ? 'FOCUSED' : 'CLOSED'}*/}
-            {/*/>*/}
-            {/*<InfoBox*/}
-            {/*  topText="CLOTHING"*/}
-            {/*  bottomText={*/}
-            {/*    minerLevel === 'second' ? 'MINERS TANK' : 'JADESMITH TANK'*/}
-            {/*  }*/}
-            {/*/>*/}
+            <Grid gridTemplateColumns="repeat(4, 1fr)" columnGap="12px">
+              {metaData?.metadata.attributes
+                .slice(0, 4)
+                .map((attr) => (
+                  <InfoBox
+                    key={attr.trait_type}
+                    topText={attr.trait_type}
+                    bottomText={attr.value}
+                  />
+                ))}
+            </Grid>
+
+            <Grid gridTemplateColumns="repeat(4, 1fr)" columnGap="12px">
+              {metaData?.metadata.attributes
+                .slice(4)
+                .map((attr) => (
+                  <InfoBox
+                    key={attr.trait_type}
+                    topText={attr.trait_type}
+                    bottomText={attr.value}
+                  />
+                ))}
+            </Grid>
           </Grid>
-
-          <Grid gridTemplateColumns="repeat(4, 1fr)" columnGap="12px">
-            {nftData?.json.attributes
-              .slice(4)
-              .map((attr) => (
-                <InfoBox
-                  key={attr.trait_type}
-                  topText={attr.trait_type}
-                  bottomText={attr.value}
-                />
-              ))}
-            {/*<InfoBox*/}
-            {/*  topText="MOUTH"*/}
-            {/*  bottomText={minerLevel === 'second' ? 'FLAT' : 'FLAT'}*/}
-            {/*/>*/}
-            {/*<InfoBox*/}
-            {/*  topText="HAIR"*/}
-            {/*  bottomText={minerLevel === 'second' ? 'SHORT' : 'LONG'}*/}
-            {/*/>*/}
-            {/*<InfoBox*/}
-            {/*  topText="RELIC POWER"*/}
-            {/*  bottomText={minerLevel === 'second' ? '3' : '3'}*/}
-            {/*/>*/}
-            {/*<InfoBox*/}
-            {/*  topText="BOULDER POWER"*/}
-            {/*  bottomText={minerLevel === 'second' ? '6' : '6'}*/}
-            {/*/>*/}
-          </Grid>
-        </Grid>
-      </Flex>
+        </Flex>
+      </Skeleton>
 
       <Grid gridTemplateColumns="repeat(3, 1fr)" columnGap="25px" w="100%">
         <UpdateTasks />

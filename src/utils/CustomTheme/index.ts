@@ -1,4 +1,5 @@
 import { extendTheme } from '@chakra-ui/react';
+import { Skeleton } from '@chakra-ui/skeleton/dist/skeleton';
 
 export const theme = extendTheme({
   config: {

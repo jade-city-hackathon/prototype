@@ -12,7 +12,7 @@ import {
 } from '@solana/spl-token';
 import { MetaDataType } from '../../components/mintMiner';
 
-export const checkNft = async ({
+export const getSupply = async ({
   program,
   publicKey,
 }: {
@@ -21,18 +21,20 @@ export const checkNft = async ({
 }) => {
   if (!program || !publicKey) return;
 
-  const userDataPDA = (walletAddress: PublicKey): [PublicKey, number] => {
+  const contractDataPDA = (): [PublicKey, number] => {
     return PublicKey.findProgramAddressSync(
-      [Buffer.from('userdata'), walletAddress.toBuffer()],
+      [Buffer.from('contractdata')],
       program.programId,
     );
   };
 
-  const userDataAfter = await program.account.userData.fetchNullable(
-    userDataPDA(publicKey)[0],
+  const data = await program.account.contractData.fetchNullable(
+    contractDataPDA()[0],
   );
 
-  return userDataAfter;
+  if (!data) return;
+
+  return { supply: data.supply, totalSupply: data.totalSupply };
 };
 
 export const getNFT = async ({
