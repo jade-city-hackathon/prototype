@@ -12,7 +12,9 @@ const mockWallet = () => {
 
 export const useGetProgram = () => {
   const wallet = useAnchorWallet();
+
   const { connection } = useConnection();
+
   return useMemo(() => {
     if (connection) {
       return getProgram(connection, wallet ?? mockWallet());
